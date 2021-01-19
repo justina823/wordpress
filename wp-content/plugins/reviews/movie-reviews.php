@@ -33,6 +33,8 @@ class My_Movie_Reviews {
         'title','editor','excerpt','author','revisions','thumbnail','custom-fields',
       ),
       'public' => TRUE, 
+      'menu_icon' => 'dashicons-format-video',
+      'menu_position' => 1,
 
     ));
   }
