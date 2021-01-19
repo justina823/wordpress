@@ -82,7 +82,6 @@ class My_Movie_Reviews {
 		));
 	}
 
-
 	/**
 	 * Activation hook (see register_activation_hook)
 	 */
