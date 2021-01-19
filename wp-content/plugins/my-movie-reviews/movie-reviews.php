@@ -14,7 +14,8 @@ class My_Movie_Reviews {
 
 	const FIELD_PREFIX = 'jcmr_';
 
-	const CPT_SLUG = 'movie_review';
+	
+
 	// this needs to be hard-coded, but this serves as a reminder,
 	// and a find replace when searching and replacing
 	const TEXT_DOMAIN = 'jc-movie-reviews';
@@ -52,28 +53,14 @@ class My_Movie_Reviews {
 			'supports' => array(
 				'title', 'editor', 'excerpt', 'author', 'revisions', 'thumbnail',
 			),
-			'taxonomies' => array('category','post_tag'),
+			'taxonomies'=> array('category','post_tag'),
 			'public' => TRUE,
 			'menu_icon' => 'dashicons-format-video',
 			'menu_position' => 1,
 		));
 	}
 	
-	public static function register_taxonomies() {
-		register_post_type('movie_type',array('movies_review'), array(
-			'labels' => array(
-				'name' => __('Movie Types'),
-				'singular_name' => __('Movie Type'),
-			),
 
-
-			'public' => TRUE,
-			'hierarchical' => TRUE,
-			'rewrite' => array(
-				'slug'=>'movie-type'
-			)
-		));
-	}
 
 	
 	/**
@@ -81,7 +68,6 @@ class My_Movie_Reviews {
 	 */
 	public static function activate() {
 		self::register_post_type();
-		self::register_taxonomies();
 		flush_rewrite_rules();
 	}
 
