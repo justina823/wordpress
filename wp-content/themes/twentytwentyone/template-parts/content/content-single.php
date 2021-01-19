@@ -21,7 +21,7 @@
 	<div class="entry-content">
 		<?php
 		the_content();
-
+		the_meta();
 		wp_link_pages(
 			array(
 				'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'twentytwentyone' ) . '">',
