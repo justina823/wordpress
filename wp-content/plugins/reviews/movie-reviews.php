@@ -38,6 +38,10 @@ class My_Movie_Reviews {
 
     ));
   }
+  
+  
 }
 
 My_Movie_Reviews::getInstance();
+register_deactivation_hook(__FILE__,'flush_rewrite_rules' );
+register_activation_hook(__FILE__,'My_Movie_Reviews::activate' );
