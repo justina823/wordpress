@@ -30,20 +30,11 @@ class My_Movie_Reviews {
 	private function __construct() {
 		// initialize Movie Review custom post type
 		add_action('init', 'My_Movie_Reviews::register_post_type' );
-
-		// initialize custom taxonimy for movies reviews 
-		add_action('init', 'My_Movie_Reviews::register_taxonomies' );
-
-		
 		// initialize custom fields from Metabox.io:
 		// first check for required plugin
 		add_action( 'tgmpa_register', array( $this, 'check_required_plugins' ) );
 		// then define the fields
 		add_filter( 'rwmb_meta_boxes', array( $this, 'metabox_custom_fields' ) );
-
-		// add custom template and styles
-		add_action('template_include',array($this,'add_cpt_template'));
-		add_action('wp_enqueue_scripts',array($this,'add_styles_scripts'));
 	}
 
 	/**
@@ -52,7 +43,7 @@ class My_Movie_Reviews {
 	 * Defined statically for use in activation hook
 	 */
 	public static function register_post_type() {
-		register_post_type(self::CPT_SLUG, array(
+		register_post_type('movie_review', array(
 			'labels' => array(
 				'name' => __('Movie Reviews'),
 				'singular_name' => __('Movie Review'),
@@ -61,26 +52,29 @@ class My_Movie_Reviews {
 			'supports' => array(
 				'title', 'editor', 'excerpt', 'author', 'revisions', 'thumbnail',
 			),
+			'taxonomies' => array('category','post_tag'),
 			'public' => TRUE,
 			'menu_icon' => 'dashicons-format-video',
 			'menu_position' => 1,
 		));
 	}
-
+	
 	public static function register_taxonomies() {
-		register_taxonomy('movie_type', array(self::CPT_SLUG), array(
+		register_post_type('movie_type',array('movies_review'), array(
 			'labels' => array(
-				'name' => __('Movie Type'),
+				'name' => __('Movie Types'),
 				'singular_name' => __('Movie Type'),
 			),
+
+
 			'public' => TRUE,
 			'hierarchical' => TRUE,
 			'rewrite' => array(
-				'slug' => 'movie-types',
-			),
+				'slug'=>'movie-type'
+			)
 		));
 	}
-	
+
 	
 	/**
 	 * Activation hook (see register_activation_hook)
@@ -148,7 +142,7 @@ class My_Movie_Reviews {
 		$meta_boxes[] = array(
 			'id'       => 'movie_data',
 			'title'    => 'Additional Information',
-			'pages'    => array( self::CPT_SLUG ),
+			'pages'    => array( 'movie_review' ),
 			'context'  => 'normal',
 			'priority' => 'high',
 			'fields' => array(
@@ -181,7 +175,7 @@ class My_Movie_Reviews {
 		$meta_boxes[] = array(
 			'id'       => 'review_data',
 			'title'    => 'Review',
-			'pages'    => array( self::CPT_SLUG ),
+			'pages'    => array( 'movie_review' ),
 			'context'  => 'side',
 			'priority' => 'high',
 			'fields' => array(
