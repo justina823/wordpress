@@ -30,6 +30,9 @@ class My_Movie_Reviews {
 		// initialize Movie Review custom post type
 		add_action('init', 'My_Movie_Reviews::register_post_type' );
 
+		// initialize custom taxonomy for movies type
+		add_action('init', 'My_Movie_Reviews::register_taxonomies' );
+
 		// initialize custom fields from Metabox.io:
 		// first check for required plugin
 		add_action( 'tgmpa_register', array( $this, 'check_required_plugins' ) );
@@ -52,17 +55,40 @@ class My_Movie_Reviews {
 			'supports' => array(
 				'title', 'editor', 'excerpt', 'author', 'revisions', 'thumbnail',
 			),
+			
 			'public' => TRUE,
 			'menu_icon' => 'dashicons-format-video',
 			'menu_position' => 4,
 		));
 	}
+		/**
+	 * Registers the Movie Review custom post type
+	 *
+	 * Defined statically for use in activation hook
+	 */
+	public static function register_taxonomies() {
+		register_post_type('movie_type',array('movies_review'), array(
+			'labels' => array(
+				'name' => __('Movie Types'),
+				'singular_name' => __('Movie Type'),
+			),
+			
+			
+			'public' => TRUE,
+			'hierarchical' => TRUE,
+			'rewrite' => array(
+				'slug'=>'movie-type'
+			)
+		));
+	}
+
 
 	/**
 	 * Activation hook (see register_activation_hook)
 	 */
 	public static function activate() {
 		self::register_post_type();
+		self::register_taxonomies();
 		flush_rewrite_rules();
 	}
 
